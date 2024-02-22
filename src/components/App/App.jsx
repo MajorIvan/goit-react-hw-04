@@ -13,6 +13,7 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState({ src: "", alt: "" });
 
   const searchImages = async (newQuery) => {
@@ -43,8 +44,6 @@ const App = () => {
     };
     fetchData();
   }, [query, page]);
-
-  const [modalIsOpen, setIsOpen] = useState(false);
 
   function openModal(image) {
     setImageUrl(image);
