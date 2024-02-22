@@ -5,6 +5,7 @@ import ImageGallery from "../ImageGallery/ImageGallery";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import ImageModal from "../ImageModal/ImageModal";
 
 const App = () => {
   const [query, setQuery] = useState("");
@@ -12,6 +13,7 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [imageUrl, setImageUrl] = useState({ src: "", alt: "" });
 
   const searchImages = async (newQuery) => {
     setQuery(`${Date.now()}/${newQuery}`);
@@ -38,19 +40,38 @@ const App = () => {
       } finally {
         setLoading(false);
       }
-    }
+    };
     fetchData();
   }, [query, page]);
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal(image) {
+    setImageUrl(image);
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   return (
     <div>
       <SearchBar onSubmit={searchImages} />
       {error && <ErrorMessage />}
-      {images.length > 0 && <ImageGallery items={images} />}
+      {images.length > 0 && (
+        <ImageGallery images={images} openModal={openModal} />
+      )}
       {loading && <Loader />}
       {images.length > 0 && !loading && (
         <LoadMoreBtn onClick={handleLoadMore} />
       )}
+      <ImageModal
+        src={imageUrl.src}
+        alt={imageUrl.alt}
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+      />
     </div>
   );
 };

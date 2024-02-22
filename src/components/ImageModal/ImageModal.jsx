@@ -12,17 +12,14 @@ const customStyles = {
 };
 Modal.setAppElement("#root");
 
-const ImageModal = ({ src, alt, setIsOpen, modalIsOpen }) => {
-  function closeModal() {
-    setIsOpen(false);
-  }
-
+const ImageModal = ({ src, alt, closeModal, modalIsOpen }) => {
   return (
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
-      style={customStyles}>
-        <img src={src} alt={alt} onClick={closeModal}/>
+      style={customStyles}
+    >
+      <img src={src} alt={alt} onClick={closeModal} />
     </Modal>
   );
 };
